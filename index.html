@@ -43,6 +43,17 @@
   .bar span{position:absolute; top:-1.1rem; left:0; right:0; text-align:center; font-size:.68rem; color:var(--sub)}
   .barlabels{display:flex; gap:6px; font-size:.62rem; color:var(--muted)}
   .barlabels div{flex:1; text-align:center}
+  .spark-table{display:flex; flex-direction:column; gap:.55rem}
+  .spark-row{display:grid; grid-template-columns:78px 1fr auto; align-items:center; gap:.5rem}
+  .spark-lbl{font-size:.75rem; color:var(--sub)}
+  .spark-bars{display:flex; align-items:flex-end; gap:2px; height:28px}
+  .sbar{flex:1; background:var(--c1); border-radius:1px; min-height:2px}
+  .sbar.c1{background:var(--c1)} .sbar.c2{background:var(--c2)} .sbar.c3{background:var(--c3)}
+  .sbar.c4{background:var(--c4)} .sbar.c5{background:var(--c5)} .sbar.c6{background:var(--c6)}
+  .sbar.c7{background:var(--c7)} .sbar.c8{background:var(--c8)} .sbar.c9{background:var(--c9)}
+  .spark-vals{font-size:.68rem; color:var(--sub); white-space:nowrap; text-align:right}
+  .spark-vals .up{color:#6fbf5f} .spark-vals .dn{color:#d65f5f} .spark-vals .eq{color:var(--muted)}
+  code{background:var(--card); border:1px solid var(--border); border-radius:4px; padding:.05rem .3rem; font-size:.85em}
   footer{color:var(--muted); font-size:.75rem; line-height:1.6; border-top:1px solid var(--border); padding-top:1.25rem; margin-top:2rem}
   footer a{color:var(--sub)}
 </style>
@@ -53,11 +64,36 @@
 <p class="updated">Последна снимка: 29.08.2026 &nbsp;·&nbsp; обхванат период: 24.03.2026 – 29.08.2026 &nbsp;·&nbsp; източник: <a href="https://github.com/emillion-lab/TAXI" style="color:var(--sub)">TAXI</a>, регистър на ИААА</p>
 
 <div class="grid">
-  <div class="stat"><div class="n">8 738</div><div class="l">коли в регистъра</div></div>
-  <div class="stat"><div class="n">553</div><div class="l">оператора</div></div>
-  <div class="stat"><div class="n">3 168</div><div class="l">шофьора</div></div>
+  <div class="stat"><div class="n">8 738</div><div class="l">записа за коли в регистъра</div></div>
+  <div class="stat"><div class="n">5 921</div><div class="l">с проверимо валиден лиценз точно сега</div></div>
+  <div class="stat"><div class="n">185</div><div class="l">оператора с поне 1 кола (от 553 общо)</div></div>
   <div class="stat"><div class="n">47</div><div class="l">Tesla</div></div>
 </div>
+
+<section>
+  <h2>Какво показват тези числа</h2>
+  <p class="note" style="margin-bottom:.6rem">важно, преди да четеш пайовете отдолу</p>
+  <p style="font-size:.85rem; line-height:1.65; color:var(--text); margin:0 0 .7rem">
+    <b>8 738-те коли не са „в момента на пътя".</b> Полето <code>vehicles[]</code> на всеки оператор е
+    кумулативен исторически списък — веднъж вписана кола не изчезва от него, дори лицензът ѝ да не е подновен.
+  </p>
+  <p style="font-size:.85rem; line-height:1.65; color:var(--text); margin:0 0 .7rem">
+    177 от 553 оператора (тези с най-голям флот — Йелоу 333, Таксими София, О'Кей Супертранс и др.,
+    заедно 8 557 от всичките коли) публикуват отделен регистър на лицензите с дати на валидност.
+    От тях <b>само 5 921 имат лиценз, валиден към 29.08.2026</b> — останалите ~2 636 са стари записи,
+    чийто лиценз е изтекъл и не е подновен. За другите 29 оператора (181 коли) няма такъв регистър за проверка.
+  </p>
+  <p style="font-size:.85rem; line-height:1.65; color:var(--text); margin:0 0 .7rem">
+    Още нещо: <b>368 от 553 оператора (67%) в момента показват 0 коли</b> — имат лиценз за таксиметров превозвач,
+    но нито една кола не е вписана към тях в тази снимка.
+  </p>
+  <p style="font-size:.85rem; line-height:1.65; color:var(--text); margin:0">
+    Затова <code>коли</code> и <code>шофьори</code> не е нужно да съвпадат по брой — и двата масива са отделни
+    исторически списъци (кой е бил регистриран някога), не „активни в момента". Само 1 500 от 3 168 записа за
+    шофьори имат удостоверение, валидно към 29.08 — същата логика като при колите. Едно вписване не значи, че
+    колата в момента се движи с шофьор, нито че всеки шофьор има закачена конкретна кола.
+  </p>
+</section>
 
 <section>
   <h2>Марки автомобили</h2>
@@ -109,12 +145,12 @@
 
 <section>
   <h2>Концентрация при операторите</h2>
-  <p class="note">топ 5 от общо 553 оператора държат ~68% от флота</p>
+  <p class="note">топ 5 от 185 оператора с кола държат ~68% от флота · имена, както са в регистъра ("Таксими" е точното име на компанията, не съкращение)</p>
   <div class="pie-row">
     <div class="pie" style="background:conic-gradient(var(--c1) 0deg 79.84deg, var(--c2) 79.84deg 145.31deg, var(--c3) 145.31deg 197.47deg, var(--c4) 197.47deg 227.46deg, var(--c5) 227.46deg 246.45deg, var(--c6) 246.45deg 360deg)"></div>
     <div class="legend">
       <div class="row"><span class="sw" style="background:var(--c1)"></span><span class="lbl">Йелоу 333</span><span class="val">1 938 · 22%</span></div>
-      <div class="row"><span class="sw" style="background:var(--c2)"></span><span class="lbl">Таксиметрова София</span><span class="val">1 589 · 18%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c2)"></span><span class="lbl">Таксими София</span><span class="val">1 589 · 18%</span></div>
       <div class="row"><span class="sw" style="background:var(--c3)"></span><span class="lbl">О'Кей Супертранс</span><span class="val">1 266 · 14%</span></div>
       <div class="row"><span class="sw" style="background:var(--c4)"></span><span class="lbl">Радио СВ Такси</span><span class="val">728 · 8%</span></div>
       <div class="row"><span class="sw" style="background:var(--c5)"></span><span class="lbl">Такси-С-Експрес</span><span class="val">461 · 5%</span></div>
@@ -151,53 +187,143 @@
 </section>
 
 <section>
-  <h2>Общ брой коли по снимка</h2>
-  <div class="bars">
-    <div class="bar" style="height:99.2%"><span>9378</span></div>
-    <div class="bar" style="height:100%"><span>9457</span></div>
-    <div class="bar" style="height:96.5%"><span>9128</span></div>
-    <div class="bar" style="height:96.6%"><span>9131</span></div>
-    <div class="bar" style="height:92.2%"><span>8723</span></div>
-    <div class="bar" style="height:92.2%"><span>8720</span></div>
-    <div class="bar" style="height:92.4%"><span>8736</span></div>
-    <div class="bar" style="height:92.4%"><span>8737</span></div>
+  <h2>Марки по снимка</h2>
+  <p class="note">всеки ред е мащабиран към собствения си минимум–максимум, за да се вижда трендът — не сравнявай височини между редове, за размера виж пая горе</p>
+  <div class="spark-table">
+    <div class="spark-row">
+      <div class="spark-lbl">Общо коли</div>
+      <div class="spark-bars">
+        <div class="sbar" style="height:90.6%"></div><div class="sbar" style="height:100%"></div>
+        <div class="sbar" style="height:60.7%"></div><div class="sbar" style="height:61.1%"></div>
+        <div class="sbar" style="height:12.4%"></div><div class="sbar" style="height:12%"></div>
+        <div class="sbar" style="height:13.9%"></div><div class="sbar" style="height:14%"></div>
+      </div>
+      <div class="spark-vals">9 379 → 8 738 <span class="dn">↓</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Кия</div>
+      <div class="spark-bars">
+        <div class="sbar c1" style="height:12%"></div><div class="sbar c1" style="height:100%"></div>
+        <div class="sbar c1" style="height:56%"></div><div class="sbar c1" style="height:32%"></div>
+        <div class="sbar c1" style="height:20%"></div><div class="sbar c1" style="height:12%"></div>
+        <div class="sbar c1" style="height:28%"></div><div class="sbar c1" style="height:88%"></div>
+      </div>
+      <div class="spark-vals">2 922 → 2 941 <span class="up">↑</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Фолксваген</div>
+      <div class="spark-bars">
+        <div class="sbar c2" style="height:12%"></div><div class="sbar c2" style="height:89%"></div>
+        <div class="sbar c2" style="height:100%"></div><div class="sbar c2" style="height:100%"></div>
+        <div class="sbar c2" style="height:56%"></div><div class="sbar c2" style="height:56%"></div>
+        <div class="sbar c2" style="height:67%"></div><div class="sbar c2" style="height:12%"></div>
+      </div>
+      <div class="spark-vals">1 366 → 1 366 <span class="eq">=</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Хюндай</div>
+      <div class="spark-bars">
+        <div class="sbar c3" style="height:69.6%"></div><div class="sbar c3" style="height:100%"></div>
+        <div class="sbar c3" style="height:56.5%"></div><div class="sbar c3" style="height:60.9%"></div>
+        <div class="sbar c3" style="height:12%"></div><div class="sbar c3" style="height:12%"></div>
+        <div class="sbar c3" style="height:12%"></div><div class="sbar c3" style="height:12%"></div>
+      </div>
+      <div class="spark-vals">950 → 897 <span class="dn">↓</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Дачия</div>
+      <div class="spark-bars">
+        <div class="sbar c4" style="height:99%"></div><div class="sbar c4" style="height:100%"></div>
+        <div class="sbar c4" style="height:47.6%"></div><div class="sbar c4" style="height:47.6%"></div>
+        <div class="sbar c4" style="height:22.9%"></div><div class="sbar c4" style="height:21.9%"></div>
+        <div class="sbar c4" style="height:19.9%"></div><div class="sbar c4" style="height:12%"></div>
+      </div>
+      <div class="spark-vals">786 → 698 <span class="dn">↓</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Шкода</div>
+      <div class="spark-bars">
+        <div class="sbar c5" style="height:100%"></div><div class="sbar c5" style="height:100%"></div>
+        <div class="sbar c5" style="height:41.8%"></div><div class="sbar c5" style="height:42.6%"></div>
+        <div class="sbar c5" style="height:14.3%"></div><div class="sbar c5" style="height:14.3%"></div>
+        <div class="sbar c5" style="height:15.1%"></div><div class="sbar c5" style="height:12%"></div>
+      </div>
+      <div class="spark-vals">596 → 481 <span class="dn">↓</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Тойота</div>
+      <div class="spark-bars">
+        <div class="sbar c6" style="height:12%"></div><div class="sbar c6" style="height:24.8%"></div>
+        <div class="sbar c6" style="height:50.3%"></div><div class="sbar c6" style="height:51.7%"></div>
+        <div class="sbar c6" style="height:73%"></div><div class="sbar c6" style="height:71.6%"></div>
+        <div class="sbar c6" style="height:83%"></div><div class="sbar c6" style="height:100%"></div>
+      </div>
+      <div class="spark-vals">334 → 396 <span class="up">↑</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Опел</div>
+      <div class="spark-bars">
+        <div class="sbar c7" style="height:100%"></div><div class="sbar c7" style="height:97.8%"></div>
+        <div class="sbar c7" style="height:60.4%"></div><div class="sbar c7" style="height:59.3%"></div>
+        <div class="sbar c7" style="height:17.5%"></div><div class="sbar c7" style="height:18.6%"></div>
+        <div class="sbar c7" style="height:17.5%"></div><div class="sbar c7" style="height:12%"></div>
+      </div>
+      <div class="spark-vals">464 → 384 <span class="dn">↓</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Шевролет</div>
+      <div class="spark-bars">
+        <div class="sbar c8" style="height:100%"></div><div class="sbar c8" style="height:98.3%"></div>
+        <div class="sbar c8" style="height:46.5%"></div><div class="sbar c8" style="height:46%"></div>
+        <div class="sbar c8" style="height:12%"></div><div class="sbar c8" style="height:12.6%"></div>
+        <div class="sbar c8" style="height:14.2%"></div><div class="sbar c8" style="height:13.7%"></div>
+      </div>
+      <div class="spark-vals">517 → 362 <span class="dn">↓</span></div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-lbl">Tesla</div>
+      <div class="spark-bars">
+        <div class="sbar c9" style="height:12%"></div><div class="sbar c9" style="height:12%"></div>
+        <div class="sbar c9" style="height:34%"></div><div class="sbar c9" style="height:34%"></div>
+        <div class="sbar c9" style="height:56%"></div><div class="sbar c9" style="height:56%"></div>
+        <div class="sbar c9" style="height:100%"></div><div class="sbar c9" style="height:100%"></div>
+      </div>
+      <div class="spark-vals">43 → 47 <span class="up">↑</span></div>
+    </div>
   </div>
-  <div class="barlabels">
+  <div class="barlabels" style="margin-top:.3rem">
     <div>24.03</div><div>09.05</div><div>08.06</div><div>15.06</div>
     <div>20.07</div><div>21.07</div><div>01.08</div><div>29.08</div>
   </div>
 </section>
 
 <section>
-  <h2>Tesla по снимка</h2>
-  <div class="bars">
-    <div class="bar tesla" style="height:91.5%"><span>43</span></div>
-    <div class="bar tesla" style="height:91.5%"><span>43</span></div>
-    <div class="bar tesla" style="height:93.6%"><span>44</span></div>
-    <div class="bar tesla" style="height:93.6%"><span>44</span></div>
-    <div class="bar tesla" style="height:95.7%"><span>45</span></div>
-    <div class="bar tesla" style="height:95.7%"><span>45</span></div>
-    <div class="bar tesla" style="height:100%"><span>47</span></div>
-    <div class="bar tesla" style="height:100%"><span>47</span></div>
+  <h2>Движение в регистъра</h2>
+  <p class="note">две различни неща — <b>напуснали</b> излизат от регистъра изцяло (спрян лиценз, продадена кола и т.н.); <b>смяна на оператор</b> е кола, която си остава в регистъра, но минава от една таксиметрова фирма в друга ("между фирмите")</p>
+  <div class="grid" style="grid-template-columns:1fr 1fr 1fr; margin-bottom:1rem">
+    <div class="stat" style="padding:.7rem .5rem"><div class="n" style="font-size:1.15rem">412</div><div class="l">нови в регистъра</div></div>
+    <div class="stat" style="padding:.7rem .5rem"><div class="n" style="font-size:1.15rem">1 053</div><div class="l">напуснали регистъра</div></div>
+    <div class="stat" style="padding:.7rem .5rem"><div class="n" style="font-size:1.15rem">74</div><div class="l">смяна на оператор</div></div>
   </div>
-  <div class="barlabels">
-    <div>24.03</div><div>09.05</div><div>08.06</div><div>15.06</div>
-    <div>20.07</div><div>21.07</div><div>01.08</div><div>29.08</div>
-  </div>
-</section>
-
-<section>
-  <h2>Миграция между снимките</h2>
+  <p class="note">за целия период 24.03 – 29.08.2026, по двойки последователни снимки:</p>
   <table>
-    <tr><th>Период</th><th class="num">Нови</th><th class="num">Тръгнали</th></tr>
-    <tr><td>24.03 → 09.05</td><td class="num">126</td><td class="num">47</td></tr>
-    <tr><td>09.05 → 08.06</td><td class="num">75</td><td class="num">404</td></tr>
-    <tr><td>08.06 → 15.06</td><td class="num">20</td><td class="num">17</td></tr>
-    <tr><td>15.06 → 20.07</td><td class="num">85</td><td class="num">493</td></tr>
-    <tr><td>20.07 → 21.07</td><td class="num">5</td><td class="num">8</td></tr>
-    <tr><td>21.07 → 01.08</td><td class="num">34</td><td class="num">18</td></tr>
-    <tr><td>01.08 → 29.08</td><td class="num">67</td><td class="num">66</td></tr>
+    <tr><th>Период</th><th class="num">Нови</th><th class="num">Напуснали</th><th class="num">Смяна на оператор</th></tr>
+    <tr><td>24.03 → 09.05</td><td class="num">126</td><td class="num">47</td><td class="num">16</td></tr>
+    <tr><td>09.05 → 08.06</td><td class="num">75</td><td class="num">404</td><td class="num">12</td></tr>
+    <tr><td>08.06 → 15.06</td><td class="num">20</td><td class="num">17</td><td class="num">1</td></tr>
+    <tr><td>15.06 → 20.07</td><td class="num">85</td><td class="num">493</td><td class="num">31</td></tr>
+    <tr><td>20.07 → 21.07</td><td class="num">5</td><td class="num">8</td><td class="num">2</td></tr>
+    <tr><td>21.07 → 01.08</td><td class="num">34</td><td class="num">18</td><td class="num">2</td></tr>
+    <tr><td>01.08 → 29.08</td><td class="num">67</td><td class="num">66</td><td class="num">10</td></tr>
   </table>
+</section>
+
+<section>
+  <p style="text-align:center; font-size:.85rem">
+    <a href="explore.html" style="color:var(--text); text-decoration:none; border:1px solid var(--border); border-radius:var(--radius,8px); padding:.6rem 1rem; display:inline-block">
+      Разгледай всичките 8 738 коли — филтри по марка, оператор, статус на лиценза →
+    </a>
+  </p>
 </section>
 
 <footer>
@@ -205,6 +331,8 @@
   <a href="https://github.com/emillion-lab/TAXI">emillion-lab/TAXI</a> (24.03–29.08.2026),
   вградени статично в тази страница — без runtime зависимости, без заявки към регистъра при отваряне.
   За да се обнови, стойностите трябва да се преизчислят и вградят наново след следваща снимка.
+  Статусът „валиден лиценз" е изчислен само за 29.08.2026 и не се преизчислява автоматично.
+  <br><a href="explore.html">→ пълната таблица с 8 738-те коли, с филтри</a> е вградена отделно, също офлайн.
   <br>Данни: Изпълнителна агенция „Автомобилна администрация" (ИААА), публичен регистър на таксиметровите превозвачи.
 </footer>
 
