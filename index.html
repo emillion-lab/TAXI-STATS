@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAXI — статистика на софийския таксиметров регистър</title>
+<style>
+  :root{
+    --bg:#0d0d0f; --card:#18181c; --border:#2a2a30;
+    --text:#e8e8ea; --sub:#9a9aa2; --muted:#6c6c74;
+    --c1:#4d7dd6; --c2:#e08a4c; --c3:#4caf8a; --c4:#d6b04d;
+    --c5:#c46b9c; --c6:#6fbf5f; --c7:#8a7bd6; --c8:#d65f5f; --c9:#8a8a8a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:1.25rem 1rem 3rem; max-width:520px; margin:0 auto;
+  }
+  h1{font-size:1.25rem; font-weight:600; margin:0 0 .25rem; line-height:1.3}
+  .updated{color:var(--muted); font-size:.8rem; margin:0 0 1.5rem}
+  .grid{display:grid; grid-template-columns:1fr 1fr; gap:.6rem; margin-bottom:1.75rem}
+  .stat{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:.9rem 1rem}
+  .stat .n{font-size:1.4rem; font-weight:600}
+  .stat .l{font-size:.75rem; color:var(--sub); margin-top:.15rem}
+  section{margin-bottom:2.25rem}
+  h2{font-size:1rem; font-weight:600; margin:0 0 .2rem}
+  .note{color:var(--muted); font-size:.78rem; margin:0 0 1rem}
+  .pie-row{display:flex; align-items:center; gap:1.25rem}
+  .pie{width:132px; height:132px; border-radius:50%; flex:none}
+  .legend{flex:1; display:flex; flex-direction:column; gap:.4rem; font-size:.82rem}
+  .legend .row{display:flex; align-items:center; gap:.5rem}
+  .sw{width:10px; height:10px; border-radius:2px; flex:none}
+  .legend .lbl{color:var(--text); flex:1}
+  .legend .val{color:var(--sub); font-variant-numeric:tabular-nums}
+  table{width:100%; border-collapse:collapse; font-size:.82rem}
+  th,td{text-align:left; padding:.4rem .3rem; border-bottom:1px solid var(--border)}
+  th{color:var(--sub); font-weight:500; font-size:.75rem}
+  td.num{text-align:right; font-variant-numeric:tabular-nums}
+  .bars{display:flex; align-items:flex-end; gap:6px; height:90px; margin:.75rem 0 .35rem}
+  .bar{flex:1; background:var(--c1); border-radius:3px 3px 0 0; position:relative}
+  .bar.tesla{background:var(--c8)}
+  .bar span{position:absolute; top:-1.1rem; left:0; right:0; text-align:center; font-size:.68rem; color:var(--sub)}
+  .barlabels{display:flex; gap:6px; font-size:.62rem; color:var(--muted)}
+  .barlabels div{flex:1; text-align:center}
+  footer{color:var(--muted); font-size:.75rem; line-height:1.6; border-top:1px solid var(--border); padding-top:1.25rem; margin-top:2rem}
+  footer a{color:var(--sub)}
+</style>
+</head>
+<body>
+
+<h1>Софийски таксиметров регистър — статистика</h1>
+<p class="updated">Последна снимка: 29.08.2026 &nbsp;·&nbsp; обхванат период: 24.03.2026 – 29.08.2026 &nbsp;·&nbsp; източник: <a href="https://github.com/emillion-lab/TAXI" style="color:var(--sub)">TAXI</a>, регистър на ИААА</p>
+
+<div class="grid">
+  <div class="stat"><div class="n">8 738</div><div class="l">коли в регистъра</div></div>
+  <div class="stat"><div class="n">553</div><div class="l">оператора</div></div>
+  <div class="stat"><div class="n">3 168</div><div class="l">шофьора</div></div>
+  <div class="stat"><div class="n">47</div><div class="l">Tesla</div></div>
+</div>
+
+<section>
+  <h2>Марки автомобили</h2>
+  <p class="note">топ 8 по брой, останалите ~40 марки обединени</p>
+  <div class="pie-row">
+    <div class="pie" style="background:conic-gradient(var(--c1) 0deg 121.17deg, var(--c2) 121.17deg 177.45deg, var(--c3) 177.45deg 214.40deg, var(--c4) 214.40deg 243.16deg, var(--c5) 243.16deg 262.98deg, var(--c6) 262.98deg 279.29deg, var(--c7) 279.29deg 295.11deg, var(--c8) 295.11deg 310.03deg, var(--c9) 310.03deg 360deg)"></div>
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:var(--c1)"></span><span class="lbl">Кия</span><span class="val">2 941 · 34%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c2)"></span><span class="lbl">Фолксваген</span><span class="val">1 366 · 16%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c3)"></span><span class="lbl">Хюндай</span><span class="val">897 · 10%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c4)"></span><span class="lbl">Дачия</span><span class="val">698 · 8%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c5)"></span><span class="lbl">Шкода</span><span class="val">481 · 6%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c6)"></span><span class="lbl">Тойота</span><span class="val">396 · 5%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c7)"></span><span class="lbl">Опел</span><span class="val">384 · 4%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c8)"></span><span class="lbl">Шевролет</span><span class="val">362 · 4%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c9)"></span><span class="lbl">Други</span><span class="val">1 213 · 14%</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Tesla по модел</h2>
+  <p class="note">47 коли към 29.08 — нула тръгнали за целия период, +4 нови</p>
+  <div class="pie-row">
+    <div class="pie" style="background:conic-gradient(var(--c1) 0deg 275.74deg, var(--c2) 275.74deg 329.36deg, var(--c3) 329.36deg 352.34deg, var(--c4) 352.34deg 360deg)"></div>
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:var(--c1)"></span><span class="lbl">Модел 3</span><span class="val">36 · 77%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c2)"></span><span class="lbl">Модел Y</span><span class="val">7 · 15%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c3)"></span><span class="lbl">Модел S</span><span class="val">3 · 6%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c4)"></span><span class="lbl">Модел X</span><span class="val">1 · 2%</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Собственост</h2>
+  <p class="note">как е декларирано превозното средство в регистъра</p>
+  <div class="pie-row">
+    <div class="pie" style="background:conic-gradient(var(--c1) 0deg 182.72deg, var(--c2) 182.72deg 296.76deg, var(--c3) 296.76deg 339.36deg, var(--c4) 339.36deg 359.63deg, var(--c5) 359.63deg 360deg)"></div>
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:var(--c1)"></span><span class="lbl">Няма данни</span><span class="val">4 435 · 51%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c2)"></span><span class="lbl">Друго</span><span class="val">2 768 · 32%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c3)"></span><span class="lbl">Лизинг</span><span class="val">1 034 · 12%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c4)"></span><span class="lbl">Собствено</span><span class="val">492 · 6%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c5)"></span><span class="lbl">Наем</span><span class="val">9 · 0.1%</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Концентрация при операторите</h2>
+  <p class="note">топ 5 от общо 553 оператора държат ~68% от флота</p>
+  <div class="pie-row">
+    <div class="pie" style="background:conic-gradient(var(--c1) 0deg 79.84deg, var(--c2) 79.84deg 145.31deg, var(--c3) 145.31deg 197.47deg, var(--c4) 197.47deg 227.46deg, var(--c5) 227.46deg 246.45deg, var(--c6) 246.45deg 360deg)"></div>
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:var(--c1)"></span><span class="lbl">Йелоу 333</span><span class="val">1 938 · 22%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c2)"></span><span class="lbl">Таксиметрова София</span><span class="val">1 589 · 18%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c3)"></span><span class="lbl">О'Кей Супертранс</span><span class="val">1 266 · 14%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c4)"></span><span class="lbl">Радио СВ Такси</span><span class="val">728 · 8%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c5)"></span><span class="lbl">Такси-С-Експрес</span><span class="val">461 · 5%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c6)"></span><span class="lbl">Останалите 548</span><span class="val">2 756 · 32%</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Възраст на автопарка</h2>
+  <p class="note">по година на първа регистрация</p>
+  <div class="pie-row">
+    <div class="pie" style="background:conic-gradient(var(--c1) 0deg 28.96deg, var(--c2) 28.96deg 72.18deg, var(--c3) 72.18deg 185.07deg, var(--c4) 185.07deg 288.60deg, var(--c5) 288.60deg 360deg)"></div>
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:var(--c1)"></span><span class="lbl">0–2 г.</span><span class="val">703 · 8%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c2)"></span><span class="lbl">3–5 г.</span><span class="val">1 049 · 12%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c3)"></span><span class="lbl">6–10 г.</span><span class="val">2 740 · 31%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c4)"></span><span class="lbl">11–15 г.</span><span class="val">2 513 · 29%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c5)"></span><span class="lbl">16+ г.</span><span class="val">1 733 · 20%</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Движение спрямо 24.03.2026</h2>
+  <p class="note">от базата 9 378 коли на 24.03 &nbsp;·&nbsp; плюс 381 съвсем нови до 29.08</p>
+  <div class="pie-row">
+    <div class="pie" style="background:conic-gradient(var(--c1) 0deg 320.77deg, var(--c2) 320.77deg 360deg)"></div>
+    <div class="legend">
+      <div class="row"><span class="sw" style="background:var(--c1)"></span><span class="lbl">Останали в регистъра</span><span class="val">8 356 · 89%</span></div>
+      <div class="row"><span class="sw" style="background:var(--c2)"></span><span class="lbl">Тръгнали</span><span class="val">1 022 · 11%</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Общ брой коли по снимка</h2>
+  <div class="bars">
+    <div class="bar" style="height:99.2%"><span>9378</span></div>
+    <div class="bar" style="height:100%"><span>9457</span></div>
+    <div class="bar" style="height:96.5%"><span>9128</span></div>
+    <div class="bar" style="height:96.6%"><span>9131</span></div>
+    <div class="bar" style="height:92.2%"><span>8723</span></div>
+    <div class="bar" style="height:92.2%"><span>8720</span></div>
+    <div class="bar" style="height:92.4%"><span>8736</span></div>
+    <div class="bar" style="height:92.4%"><span>8737</span></div>
+  </div>
+  <div class="barlabels">
+    <div>24.03</div><div>09.05</div><div>08.06</div><div>15.06</div>
+    <div>20.07</div><div>21.07</div><div>01.08</div><div>29.08</div>
+  </div>
+</section>
+
+<section>
+  <h2>Tesla по снимка</h2>
+  <div class="bars">
+    <div class="bar tesla" style="height:91.5%"><span>43</span></div>
+    <div class="bar tesla" style="height:91.5%"><span>43</span></div>
+    <div class="bar tesla" style="height:93.6%"><span>44</span></div>
+    <div class="bar tesla" style="height:93.6%"><span>44</span></div>
+    <div class="bar tesla" style="height:95.7%"><span>45</span></div>
+    <div class="bar tesla" style="height:95.7%"><span>45</span></div>
+    <div class="bar tesla" style="height:100%"><span>47</span></div>
+    <div class="bar tesla" style="height:100%"><span>47</span></div>
+  </div>
+  <div class="barlabels">
+    <div>24.03</div><div>09.05</div><div>08.06</div><div>15.06</div>
+    <div>20.07</div><div>21.07</div><div>01.08</div><div>29.08</div>
+  </div>
+</section>
+
+<section>
+  <h2>Миграция между снимките</h2>
+  <table>
+    <tr><th>Период</th><th class="num">Нови</th><th class="num">Тръгнали</th></tr>
+    <tr><td>24.03 → 09.05</td><td class="num">126</td><td class="num">47</td></tr>
+    <tr><td>09.05 → 08.06</td><td class="num">75</td><td class="num">404</td></tr>
+    <tr><td>08.06 → 15.06</td><td class="num">20</td><td class="num">17</td></tr>
+    <tr><td>15.06 → 20.07</td><td class="num">85</td><td class="num">493</td></tr>
+    <tr><td>20.07 → 21.07</td><td class="num">5</td><td class="num">8</td></tr>
+    <tr><td>21.07 → 01.08</td><td class="num">34</td><td class="num">18</td></tr>
+    <tr><td>01.08 → 29.08</td><td class="num">67</td><td class="num">66</td></tr>
+  </table>
+</section>
+
+<footer>
+  Всички числа са изчислени еднократно от 8-те snapshot-а в
+  <a href="https://github.com/emillion-lab/TAXI">emillion-lab/TAXI</a> (24.03–29.08.2026),
+  вградени статично в тази страница — без runtime зависимости, без заявки към регистъра при отваряне.
+  За да се обнови, стойностите трябва да се преизчислят и вградят наново след следваща снимка.
+  <br>Данни: Изпълнителна агенция „Автомобилна администрация" (ИААА), публичен регистър на таксиметровите превозвачи.
+</footer>
+
+</body>
+</html>
